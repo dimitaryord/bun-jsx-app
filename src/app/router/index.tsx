@@ -1,14 +1,24 @@
-import * as elements from 'typed-html'
 import App from '../App'
 import HomeView from '../views/HomeView'
+import CalculatorView from '../views/CalculatorView'
 
-const AppRouter = {
+interface Router{
+    root: any,
+    path?: string,
+    router: Array<Router>
+}
+
+const AppRouter: Router = {
     root: App,
     router: [
         {
             path: '/',
             root: HomeView,
-        }
+        } as Router,
+        {
+            path: '/calculator',
+            root: CalculatorView,
+        } as Router
     ]
 }
 
