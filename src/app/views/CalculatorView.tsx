@@ -4,6 +4,7 @@ import DisplayElement from '../components/calculator/Display'
 import ButtonElement from '../components/calculator/Button'
 
 const calculatorButtons = [
+    '=',
     'Res',
     'Del',
     'Pow',
@@ -23,7 +24,6 @@ const calculatorButtons = [
     '2',
     '1',
     '0',
-    '.',
 ]
 
 

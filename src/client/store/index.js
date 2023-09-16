@@ -12,32 +12,36 @@ export function initCalcValue(calcDisplay){
     const data = getData()
 
     if(data) return calcDisplay.textContent = data.value
-    setData({ value: 0, operation: null})
+    setData({ value: 0, operation: null, initialValue: 0})
 }
 
-export function setCalcValue(calcDisplay, callback, isOperation=false){
-   const { value, operation} = getData()
+export function setCalcValue(calcDisplay, callback){
+   const { value, operation, initialValue } = getData()
    const _value = callback(value)
 
-   if(operation && !isOperation){
-       let operationValue = 0   
-       switch(operation){
-           case '+': operationValue = value + _value; break;
-           case '-': operationValue = value - _value; break;
-           case '*': operationValue = value * _value; break;
-           case '/': operationValue = value / _value; break;
-           case '%': operationValue = value % _value; break;
-       }   
-       setData({ value: operationValue, operation: null })
-       return calcDisplay.textContent = operationValue
-   }
-
-
-   setData({ value: _value, operation})
+   setData({ value: _value, operation, initialValue})
    calcDisplay.textContent = _value
 }
 
 export function setSymbolValue(operation){
     const { value } = getData()
-    setData({ value, operation })
+    setData({ value: 0, operation, initialValue: value })
+}
+
+export function doOperation(calcDisplay){
+   const { value, operation, initialValue } = getData()
+   if(!operation) return
+
+   let _value = 0
+
+   switch(operation){
+        case '+': _value = initialValue + value; break;
+        case '-': _value = initialValue - value; break;
+        case '/': _value = initialValue / value; break;
+        case '*': _value = initialValue * value; break;
+        case '%': _value = initialValue % value; break;
+   }
+
+   setData({ value: _value, operation: null, initialValue: 0 })
+   calcDisplay.textContent = _value
 }

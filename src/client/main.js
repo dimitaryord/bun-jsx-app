@@ -10,7 +10,7 @@ navigationButtons.forEach(navigationButton => {
 })
 
 
-import { initCalcValue, setCalcValue, setSymbolValue } from '/store'
+import { initCalcValue, setCalcValue, setSymbolValue, doOperation } from '/store'
 
 
 const calcButtons = document.querySelectorAll('#calc-btn')
@@ -19,13 +19,15 @@ const calcDisplay = document.querySelector('#calc-display')
 window.addEventListener('DOMContentLoaded', () => {initCalcValue(calcDisplay)})
 
 
+
 calcButtons.forEach(button => {
     button.addEventListener('click', () => {
         
         switch(button.textContent){
-            case 'Sqrt': setCalcValue(calcDisplay, value => Math.sqrt(value), true); break;
-            case 'Pow': setCalcValue(calcDisplay, value => Math.pow(value, 2), true); break;
-            case 'Res': setCalcValue(calcDisplay, () => 0, true); break;
+            case 'Sqrt': setCalcValue(calcDisplay, value => Math.sqrt(value)); break;
+            case 'Pow': setCalcValue(calcDisplay, value => Math.pow(value, 2)); break;
+            case 'Res': setCalcValue(calcDisplay, () => 0); break;
+            case '=': doOperation(calcDisplay); break;
             case 'Del': setCalcValue(calcDisplay, value => {
                 const stringValue = value.toString()
                 return Number(stringValue.substring(0, stringValue.length - 1))
@@ -35,8 +37,7 @@ calcButtons.forEach(button => {
             case '*': setSymbolValue('*'); break;
             case '/': setSymbolValue('/'); break;
             case '%': setSymbolValue('%'); break;
-            case '.': console.log('dot'); break;
-            default: setCalcValue(calcDisplay, () => Number(button.textContent)); break;       
+            default: setCalcValue(calcDisplay, value => Number(value + button.textContent)); break;       
         }
     })
 })
